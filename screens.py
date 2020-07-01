@@ -15,7 +15,7 @@ def show_go_screen(g):
     if g.score > g.highscore:
         g.highscore = g.score
         draw_text(screen, 'NEW HIGH SCORE!', 40, int(WIDTH/2), 100)
-        with open(path.join(g.dir, HS_FILE), 'w') as f:
+        with open(path.join(game_folder, HS_FILE), 'w') as f:
             f.write(str(g.score))
     else:
         draw_text(screen, 'HIGH SCORE: ' + str(int(g.highscore)), 40, int(WIDTH/2), 100)

@@ -38,13 +38,16 @@ class Game:
             self.new_powerup(self.pow_speed)
 
     def load_data(self):
-        self.dir = path.dirname(__file__)
-        with open(path.join(self.dir, HS_FILE), 'w') as f:
-            try:
-                self.highscore = int(f.read())
-            except:
+        if path.isfile(HS_FILE):
+            f = open(path.join(game_folder, HS_FILE), 'r')
+            value = f.readline()
+            if value == '':
                 self.highscore = 0
-
+            else:
+                self.highscore = int(float(value))
+        else:
+            f = open(path.join(game_folder, HS_FILE), 'w')
+            self.highscore = 0
 
     def update(self):
         self.all_sprites.update()
