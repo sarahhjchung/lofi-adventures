@@ -2,7 +2,7 @@ import pygame
 from mob import Mob
 from player import *
 from screens import *
-from setting import *
+from settings import *
 from os import path
 import random
 

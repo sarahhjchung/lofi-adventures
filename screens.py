@@ -1,5 +1,5 @@
 import pygame
-from setting import *
+from settings import *
 
 
 def show_go_screen(g):
@@ -110,6 +110,7 @@ def show_start_screen(g):
 def show_pause_screen():
     pause = True
     reset = False
+
     play_again_button = pygame.Rect(int(WIDTH/2 - 85), int(2*HEIGHT/5 + 140), 180, 50)
     exit_button = pygame.Rect(int(WIDTH/2 - 50), int(2*HEIGHT/3 + 50), 100, 50)
     resume_button = pygame.Rect(int(WIDTH/2 - 65), int(2*HEIGHT/3 + 110), 130, 50)
@@ -123,6 +124,13 @@ def show_pause_screen():
         clock.tick(FPS)
 
         click = pygame.mouse.get_pressed()
+
+        # insert pause screen image
+        pausescreen.set_colorkey(DARK_PURPLE)
+        pausescreen_rect.x = 0
+        pausescreen_rect.y = 0
+        screen.blit(pausescreen, pausescreen_rect)
+
         pygame.draw.rect(screen, GREEN, play_again_button)
         draw_text(screen, 'PLAY AGAIN', 28, int(WIDTH/2), int(2*HEIGHT/3))
         pygame.draw.rect(screen, RED, exit_button)
