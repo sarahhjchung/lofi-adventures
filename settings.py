@@ -38,7 +38,24 @@ shuriken_img = pygame.image.load(path.join(game_folder, 'pokeball_mob.png')).con
 background = pygame.image.load(path.join(game_folder, 'pokemon_background.png')).convert()
 background_rect = background.get_rect()
 pausescreen = pygame.image.load(path.join(game_folder, 'pausescreen.png')).convert()
+
+pause_button = pygame.image.load(path.join(game_folder, 'pause_button.png')).convert()
+pause_button_rect = pause_button.get_rect()
+
 pausescreen_rect = pausescreen.get_rect()
+
+resume_button = pygame.image.load(path.join(game_folder, 'resume_button.png')).convert()
+resume_button_rect = resume_button.get_rect()
+resume_hover = pygame.image.load(path.join(game_folder, 'resume_hover.png')).convert()
+
+restart_button = pygame.image.load(path.join(game_folder, 'restart_button.png')).convert()
+restart_button_rect = resume_button.get_rect()
+restart_hover = pygame.image.load(path.join(game_folder, 'restart_hover.png')).convert()
+
+exit_button = pygame.image.load(path.join(game_folder, 'exit_button.png')).convert()
+exit_button_rect = resume_button.get_rect()
+exit_hover = pygame.image.load(path.join(game_folder, 'exit_hover.png')).convert()
+
 powerup_images = {}
 powerup_images['shield'] = pygame.image.load(path.join(game_folder, 'shield_gold.png')).convert()
 powerup_images['extra life'] = pygame.image.load(path.join(game_folder, 'pill_red.png')).convert()
@@ -64,6 +81,22 @@ def draw_lives(surf, x, y, lives, img):
         img_rect.x = x + 30 * i
         img_rect.y = y
         surf.blit(img, img_rect)
+
+
+def button_hovered1(rectangle, hov_button):
+    mouse_pos = pygame.mouse.get_pos()
+    hovered = False
+    if rectangle.x <= mouse_pos[0] <= rectangle.x + rectangle.width \
+            and rectangle.y <= mouse_pos[1] <= rectangle.y + rectangle.height:
+        # insert hovered button image
+        # hov_button.set_colorkey(WHITE)
+        hov_button_rect = hov_button.get_rect()
+        hov_button_rect.x = rectangle.x - 86
+        hov_button_rect.y = rectangle.y
+        screen.blit(hov_button, hov_button_rect)
+        hovered = True
+
+    return hovered
 
 
 def button_hovered(rectangle, hov_colour):

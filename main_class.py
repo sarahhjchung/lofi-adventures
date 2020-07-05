@@ -156,10 +156,13 @@ while g.running:
     g.draw()
 
     # pause button
-    pause_button = pygame.Rect(5, 5, 50, 50)
-    pygame.draw.rect(screen, RED, pause_button)
+    pause_button.set_colorkey(DARK_PURPLE)
+    pause_button_rect.x = 0
+    exit_button_rect.y = 0
+    screen.blit(pause_button, pause_button_rect)
+
     click = pygame.mouse.get_pressed()
-    if button_hovered(pause_button, (255, 153, 153)):
+    if button_hovered1(pause_button_rect, pause_button):
         if click[0] == 1:
             g.pause = show_pause_screen()[0]
             g.start = show_pause_screen()[1]

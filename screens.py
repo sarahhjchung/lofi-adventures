@@ -111,13 +111,10 @@ def show_pause_screen():
     pause = True
     reset = False
 
-    play_again_button = pygame.Rect(int(WIDTH/2 - 85), int(2*HEIGHT/5 + 140), 180, 50)
-    exit_button = pygame.Rect(int(WIDTH/2 - 50), int(2*HEIGHT/3 + 50), 100, 50)
-    resume_button = pygame.Rect(int(WIDTH/2 - 65), int(2*HEIGHT/3 + 110), 130, 50)
-    draw_text(screen, 'PAUSE', 64, int(WIDTH/2), int(2*HEIGHT/5))
-    draw_text(screen, 'PLAY AGAIN', 28, int(WIDTH/2), int(2*HEIGHT/3))
-    draw_text(screen, 'EXIT', 28, int(WIDTH/2), int(2*HEIGHT/3 + 50))
-    draw_text(screen, 'RESUME', 28, int(WIDTH/2), int(2*HEIGHT/3 + 120))
+    restart_button_click = pygame.Rect(340, 340, 92, 32)
+    exit_button_click = pygame.Rect(342, 300, 92, 32)
+    resume_button_click = pygame.Rect(340, 260, 92, 32)
+
     waiting = True
     while waiting:
 
@@ -131,29 +128,42 @@ def show_pause_screen():
         pausescreen_rect.y = 0
         screen.blit(pausescreen, pausescreen_rect)
 
-        pygame.draw.rect(screen, GREEN, play_again_button)
-        draw_text(screen, 'PLAY AGAIN', 28, int(WIDTH/2), int(2*HEIGHT/3))
-        pygame.draw.rect(screen, RED, exit_button)
-        draw_text(screen, 'EXIT', 28, int(WIDTH/2), int(2*HEIGHT/3 + 50))
-        pygame.draw.rect(screen, (255, 220, 0), resume_button)
-        draw_text(screen, 'RESUME', 28, int(WIDTH/2), int(2*HEIGHT/3 + 120))
-        if button_hovered(play_again_button, (153, 255, 51)):
-            draw_text(screen, 'PLAY AGAIN', 28, int(WIDTH/2), int(2*HEIGHT/3))
+        # insert resume button image
+        resume_button.set_colorkey(WHITE)
+        resume_button_rect.x = 254
+        resume_button_rect.y = 260
+        screen.blit(resume_button, resume_button_rect)
+
+        # insert restart button image
+        restart_button.set_colorkey(WHITE)
+        restart_button_rect.x = 254
+        restart_button_rect.y = 340
+        screen.blit(restart_button, restart_button_rect)
+
+        # insert exit button image
+        exit_button.set_colorkey(WHITE)
+        exit_button_rect.x = 256
+        exit_button_rect.y = 300
+        screen.blit(exit_button, exit_button_rect)
+
+        # pygame.draw.rect(screen, GREEN, play_again_button)
+        # pygame.draw.rect(screen, RED, exit_button)
+        # pygame.draw.rect(screen, RED, resume_button_click)
+
+        if button_hovered1(restart_button_click, restart_hover):
 
             if click[0] == 1:
                 waiting = False
                 reset = True
                 pause = False
 
-        elif button_hovered(exit_button, (255, 153, 153)):
-            draw_text(screen, 'EXIT', 28, int(WIDTH/2), int(2*HEIGHT/3 + 50))
+        elif button_hovered1(exit_button_click, exit_hover):
 
             if click[0] == 1:
                 pygame.quit()
                 quit()
 
-        elif button_hovered(resume_button, (255, 243, 0)):
-            draw_text(screen, 'RESUME', 28, int(WIDTH/2), int(2*HEIGHT/3 + 120))
+        elif button_hovered1(resume_button_click, resume_hover):
 
             if click[0] == 1:
                 pause = False
