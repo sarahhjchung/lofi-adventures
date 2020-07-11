@@ -37,12 +37,55 @@ lives_mini_img.set_colorkey(WHITE)
 shuriken_img = pygame.image.load(path.join(game_folder, 'pokeball_mob.png')).convert()
 background = pygame.image.load(path.join(game_folder, 'pokemon_background.png')).convert()
 background_rect = background.get_rect()
-pausescreen = pygame.image.load(path.join(game_folder, 'pausescreen.png')).convert()
 
+# game over screen
+goscreen = pygame.image.load(path.join(game_folder, 'gameover.png')).convert()
+goscreen_rect = goscreen.get_rect()
+highscore_button = pygame.image.load(path.join(game_folder, 'highscore.png')).convert()
+highscore_button_rect = highscore_button.get_rect()
+congrats = pygame.image.load(path.join(game_folder, 'congrats.png')).convert()
+congrats_rect = congrats.get_rect()
+
+playagain = pygame.image.load(path.join(game_folder, 'playagain.png')).convert()
+playagain_rect = playagain.get_rect()
+playagain_hov = pygame.image.load(path.join(game_folder, 'playagain_hover.png')).convert()
+playagain_hov_rect = playagain_hov.get_rect()
+exitgame = pygame.image.load(path.join(game_folder, 'exitgame.png')).convert()
+exitgame_rect = exitgame.get_rect()
+exitgame_hov = pygame.image.load(path.join(game_folder, 'exitgame_hover.png')).convert()
+exitgame_hov_rect = exitgame_hov.get_rect()
+
+pausescreen = pygame.image.load(path.join(game_folder, 'pausescreen.png')).convert()
+startscreen = pygame.image.load(path.join(game_folder, 'startscreen.png')).convert()
+startscreen_rect = startscreen.get_rect()
 pause_button = pygame.image.load(path.join(game_folder, 'pause_button.png')).convert()
 pause_button_rect = pause_button.get_rect()
 
 pausescreen_rect = pausescreen.get_rect()
+
+mr_circle = pygame.image.load(path.join(game_folder, 'mr_circle.png')).convert()
+mr_circle_rect = mr_circle.get_rect()
+sg_circle = pygame.image.load(path.join(game_folder, 'sg_circle.png')).convert()
+sg_circle_rect = sg_circle.get_rect()
+mr_move = pygame.image.load(path.join(game_folder, 'mr_move.png')).convert()
+mr_move_rect = mr_move.get_rect()
+sg_move = pygame.image.load(path.join(game_folder, 'sg_move.png')).convert()
+sg_move_rect = sg_move.get_rect()
+
+mr_button = pygame.image.load(path.join(game_folder, 'mellowracoon.png')).convert()
+mr_button_rect = mr_button.get_rect()
+mr_hover = pygame.image.load(path.join(game_folder, 'mellowracoon_hover.png')).convert()
+# mr_hover_rect = mr_hover.get_rect()
+
+sg_button = pygame.image.load(path.join(game_folder, 'studygirl.png')).convert()
+sg_button_rect = sg_button.get_rect()
+sg_hover = pygame.image.load(path.join(game_folder, 'studygirl_hover.png')).convert()
+# sg_hover_rect = sg_hover.get_rect()
+
+start_button = pygame.image.load(path.join(game_folder, 'start_button.png')).convert()
+start_button_rect = start_button.get_rect()
+start_hover = pygame.image.load(path.join(game_folder, 'start_hover.png')).convert()
+# start_hover_rect = start_hover.get_rect()
 
 resume_button = pygame.image.load(path.join(game_folder, 'resume_button.png')).convert()
 resume_button_rect = resume_button.get_rect()
@@ -92,6 +135,22 @@ def button_hovered1(rectangle, hov_button):
         # hov_button.set_colorkey(WHITE)
         hov_button_rect = hov_button.get_rect()
         hov_button_rect.x = rectangle.x - 86
+        hov_button_rect.y = rectangle.y
+        screen.blit(hov_button, hov_button_rect)
+        hovered = True
+
+    return hovered
+
+
+def button_hovered2(rectangle, hov_button):
+    mouse_pos = pygame.mouse.get_pos()
+    hovered = False
+    if rectangle.x <= mouse_pos[0] <= rectangle.x + rectangle.width \
+            and rectangle.y <= mouse_pos[1] <= rectangle.y + rectangle.height:
+        # insert hovered button image
+        hov_button.set_colorkey(DARK_PURPLE)
+        hov_button_rect = hov_button.get_rect()
+        hov_button_rect.x = rectangle.x
         hov_button_rect.y = rectangle.y
         screen.blit(hov_button, hov_button_rect)
         hovered = True

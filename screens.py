@@ -3,40 +3,58 @@ from settings import *
 
 
 def show_go_screen(g):
-    screen.fill(BLACK)
-    play_again_button = pygame.Rect(int(WIDTH/2 - 85), int(2*HEIGHT/5 + 140), 180, 50)
-    exit_button = pygame.Rect(int(WIDTH/2 - 50), int(2*HEIGHT/3 + 70), 100, 50)
-    draw_text(screen, 'SCORE: ' + str(int(g.score)), 40, int(WIDTH/2), int(1*HEIGHT/4))
-    draw_text(screen, 'GAME OVER', 64, int(WIDTH/2), int(2*HEIGHT/5))
-    draw_text(screen, 'PLAY AGAIN', 28, int(WIDTH/2), int(2*HEIGHT/3))
-    draw_text(screen, 'EXIT', 28, int(WIDTH/2), int(2*HEIGHT/3 + 70))
+    # screen.fill(BLACK)
+    # play_again_button = pygame.Rect(int(WIDTH/2 - 85), int(2*HEIGHT/5 + 140), 180, 50)
+    # exit_button = pygame.Rect(int(WIDTH/2 - 50), int(2*HEIGHT/3 + 70), 100, 50)
+    # draw_text(screen, 'SCORE: ' + str(int(g.score)), 40, int(WIDTH/2), int(1*HEIGHT/4))
+    # draw_text(screen, 'GAME OVER', 64, int(WIDTH/2), int(2*HEIGHT/5))
+    # draw_text(screen, 'PLAY AGAIN', 28, int(WIDTH/2), int(2*HEIGHT/3))
+    # draw_text(screen, 'EXIT', 28, int(WIDTH/2), int(2*HEIGHT/3 + 70))
     waiting = True
+
+    # insert gameover screen image
+    goscreen_rect.x = 0
+    goscreen_rect.y = 0
+    screen.blit(goscreen, goscreen_rect)
+    draw_text(screen, str(int(g.score)), 32, 460, 318)
 
     if g.score > g.highscore:
         g.highscore = g.score
-        draw_text(screen, 'NEW HIGH SCORE!', 40, int(WIDTH/2), 100)
+        congrats_rect.x = 215
+        congrats_rect.y = 240
+        screen.blit(congrats, congrats_rect)
         with open(path.join(game_folder, HS_FILE), 'w') as f:
             f.write(str(g.score))
     else:
-        draw_text(screen, 'HIGH SCORE: ' + str(int(g.highscore)), 40, int(WIDTH/2), 100)
+        highscore_button_rect.x = 170
+        highscore_button_rect.y = 260
+        screen.blit(highscore_button, highscore_button_rect)
+        draw_text(screen, str(int(g.highscore)), 32, 460, 270)
 
     while waiting:
 
         clock.tick(FPS)
 
         click = pygame.mouse.get_pressed()
-        pygame.draw.rect(screen, GREEN, play_again_button)
-        draw_text(screen, 'PLAY AGAIN', 28, int(WIDTH/2), int(2*HEIGHT/3))
-        pygame.draw.rect(screen, RED, exit_button)
-        draw_text(screen, 'EXIT', 28, int(WIDTH/2), int(2*HEIGHT/3 + 70))
-        if button_hovered(play_again_button, (153, 255, 51)):
-            draw_text(screen, 'PLAY AGAIN', 28, int(WIDTH/2), int(2*HEIGHT/3))
+
+        # insert buttons here
+        playagain_rect.x = 265
+        playagain_rect.y = 380
+        screen.blit(playagain, playagain_rect)
+        exitgame_rect.x = 265
+        exitgame_rect.y = 460
+        screen.blit(exitgame, exitgame_rect)
+
+        # pygame.draw.rect(screen, GREEN, play_again_button)
+        # draw_text(screen, 'PLAY AGAIN', 28, int(WIDTH/2), int(2*HEIGHT/3))
+        # pygame.draw.rect(screen, RED, exit_button)
+        # draw_text(screen, 'EXIT', 28, int(WIDTH/2), int(2*HEIGHT/3 + 70))
+        if button_hovered2(playagain_rect, playagain_hov):
 
             if click[0] == 1:
                 waiting = False
 
-        elif button_hovered(exit_button, (255, 153, 153)):
-            draw_text(screen, 'EXIT', 28, int(WIDTH/2), int(2*HEIGHT/3 + 70))
+        elif button_hovered2(exitgame_rect, exitgame_hov):
 
             if click[0] == 1:
                 pygame.quit()
@@ -51,53 +69,92 @@ def show_go_screen(g):
 
 
 def show_start_screen(g):
-    screen.fill(BLACK)
-    draw_text(screen, 'WELCOME', 64, int(WIDTH/2), int(HEIGHT/7))
-    draw_text(screen, 'CHOOSE YOUR CHARACTER', 36, int(WIDTH/2), int(HEIGHT/5 + 40))
-    start_button = pygame.Rect(int(WIDTH/2 - 92), int(HEIGHT - 150), 190, 50)
-    sarah_button = pygame.Rect(int(WIDTH/2 - 150), int(2*HEIGHT/3 - 125), 100, 100)
-    allen_button = pygame.Rect(int(WIDTH/2 + 50), int(2*HEIGHT/3 - 125), 100, 100)
-    draw_text(screen, 'High Score: ' + str(int(g.highscore)), 22, 80, 5)
+    # screen.fill(BLACK)
+    # draw_text(screen, 'WELCOME', 64, int(WIDTH/2), int(HEIGHT/7))
+    # draw_text(screen, 'CHOOSE YOUR CHARACTER', 36, int(WIDTH/2), int(HEIGHT/5 + 40))
+    # # start_button = pygame.Rect(int(WIDTH/2 - 92), int(HEIGHT - 150), 190, 50)
+    # sarah_button = pygame.Rect(int(WIDTH/2 - 150), int(2*HEIGHT/3 - 125), 100, 100)
+    # allen_button = pygame.Rect(int(WIDTH/2 + 50), int(2*HEIGHT/3 - 125), 100, 100)
+    # draw_text(screen, 'High Score: ' + str(int(g.highscore)), 22, 80, 5)
+
+    # insert start screen image
+    startscreen_rect.x = 0
+    startscreen_rect.y = 0
+    screen.blit(startscreen, startscreen_rect)
+    draw_text(screen, str(int(g.highscore)), 28, 210, 4)
 
     choice = 0
-    sarah_selected = False
-    allen_selected = False
+    sg_selected = False
+    mr_selected = False
     waiting = True
     while waiting:
 
         clock.tick(FPS)
 
+        # insert study girl button
+        sg_button.set_colorkey(DARK_PURPLE)
+        sg_button_rect.x = 210
+        sg_button_rect.y = 368
+        screen.blit(sg_button, sg_button_rect)
+
+        # insert mellow racoon button
+        mr_button.set_colorkey(DARK_PURPLE)
+        mr_button_rect.x = 420
+        mr_button_rect.y = 370
+        screen.blit(mr_button, mr_button_rect)
+
         click_character = pygame.mouse.get_pressed()
-        pygame.draw.rect(screen, RED, sarah_button)
-        draw_text(screen, 'SARAH', 28, int(WIDTH/2 - 100), int(2*HEIGHT/3 - 125))
-        pygame.draw.rect(screen, ORANGE, allen_button)
-        draw_text(screen, 'ALLEN', 28, int(WIDTH/2 + 100), int(2*HEIGHT/3 - 125))
-        if button_hovered(sarah_button, (255, 153, 153)):
-            draw_text(screen, 'SARAH', 28, int(WIDTH/2 - 100), int(2*HEIGHT/3 - 125))
+        if button_hovered2(sg_button_rect, sg_hover):
 
             if click_character[0] == 1:
-                sarah_selected = True
-                allen_selected = False
+                sg_selected = True
+                mr_selected = False
                 choice = 1
 
-        elif button_hovered(allen_button, (255, 220, 0)):
-            draw_text(screen, 'ALLEN', 28, int(WIDTH/2 + 100), int(2*HEIGHT/3 - 125))
+        if button_hovered2(mr_button_rect, mr_hover):
 
             if click_character[0] == 1:
-                allen_selected = True
-                sarah_selected = False
+                mr_selected = True
+                sg_selected = False
                 choice = 2
 
-        if sarah_selected or allen_selected:
+        if sg_selected:
+            sg_circle.set_colorkey(DARK_PURPLE)
+            sg_circle_rect.x = 250
+            sg_circle_rect.y = 290
+            screen.blit(sg_circle, sg_circle_rect)
+            mr_move_rect.x = 460
+            mr_move_rect.y = 291
+            screen.blit(mr_move, mr_move_rect)
+
+        if mr_selected:
+            mr_circle.set_colorkey(DARK_PURPLE)
+            mr_circle_rect.x = 463
+            mr_circle_rect.y = 290
+            screen.blit(mr_circle, mr_circle_rect)
+            sg_move_rect.x = 245
+            sg_move_rect.y = 291
+            screen.blit(sg_move, sg_move_rect)
+
+        if sg_selected or mr_selected:
             click_start = pygame.mouse.get_pressed()
-            pygame.draw.rect(screen, GREEN, start_button)
-            draw_text(screen, 'START GAME', 28, int(WIDTH/2), int(HEIGHT - 150))
-            if button_hovered(start_button, (153, 255, 51)):
-                draw_text(screen, 'START GAME', 28, int(WIDTH/2), int(HEIGHT - 150))
+            # pygame.draw.rect(screen, GREEN, start_button)
+            # draw_text(screen, 'START GAME', 28, int(WIDTH/2), int(HEIGHT - 150))
+
+            # insert start button
+            start_button.set_colorkey(DARK_PURPLE)
+            start_button_rect.x = 325
+            start_button_rect.y = 480
+            screen.blit(start_button, start_button_rect)
+
+            if button_hovered2(start_button_rect, start_hover):
+                #draw_text(screen, 'START GAME', 28, int(WIDTH/2), int(HEIGHT - 150))
 
                 if click_start[0] == 1:
                     waiting = False
                     return choice
+
+
 
         pygame.display.flip()
 

@@ -10,7 +10,7 @@ import random
 pygame.init()
 # sound
 pygame.mixer.init()
-pygame.display.set_caption("Eludo")
+pygame.display.set_caption("Lofi Adventures")
 
 # turning the game loop into a class
 class Game:
