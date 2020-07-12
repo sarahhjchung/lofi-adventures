@@ -27,13 +27,142 @@ clock = pygame.time.Clock()
 game_folder = path.dirname(__file__)
 
 # Load all game graphics
-player1_img = pygame.image.load(path.join(game_folder, 'girl_l.png')).convert()
-player1_img.set_colorkey(BLACK)
-player2_img = pygame.image.load(path.join(game_folder, 'racoon_l.png')).convert()
-player2_img.set_colorkey(DARK_PURPLE)
-lives_img = pygame.image.load(path.join(game_folder, 'heart.jpg')).convert()
-lives_mini_img = pygame.transform.scale(lives_img, (25, 25))
-lives_mini_img.set_colorkey(WHITE)
+
+# basic character with two sizes
+player1_img = pygame.image.load(path.join(game_folder, 'sg_l.png')).convert()
+sg_l_img = pygame.transform.scale(player1_img, (73, 118))
+big_sg_l_img = pygame.transform.scale(player1_img, (109, 177))
+big_sg_l_img.set_colorkey(DARK_PURPLE)
+sg_l_img.set_colorkey(DARK_PURPLE)
+
+player1r_img = pygame.image.load(path.join(game_folder, 'sg_r.png')).convert()
+sg_r_img = pygame.transform.scale(player1r_img, (73, 118))
+big_sg_r_img = pygame.transform.scale(player1r_img, (109, 177))
+big_sg_r_img.set_colorkey(DARK_PURPLE)
+sg_r_img.set_colorkey(DARK_PURPLE)
+
+player2_img = pygame.image.load(path.join(game_folder, 'mr_l.png')).convert()
+mr_l_img = pygame.transform.scale(player2_img, (73, 118))
+big_mr_l_img = pygame.transform.scale(player2_img, (109, 177))
+big_mr_l_img.set_colorkey(DARK_PURPLE)
+mr_l_img.set_colorkey(DARK_PURPLE)
+
+player2r_img = pygame.image.load(path.join(game_folder, 'mr_r.png')).convert()
+mr_r_img = pygame.transform.scale(player2r_img, (73, 118))
+big_mr_r_img = pygame.transform.scale(player2r_img, (109, 177))
+big_mr_r_img.set_colorkey(DARK_PURPLE)
+mr_r_img.set_colorkey(DARK_PURPLE)
+
+sg_lives = pygame.image.load(path.join(game_folder, 'sg_lives.png')).convert()
+sg_lives_mini_img = pygame.transform.scale(sg_lives, (26, 21))
+sg_lives_mini_img.set_colorkey(DARK_PURPLE)
+
+mr_lives = pygame.image.load(path.join(game_folder, 'mr_lives.png')).convert()
+mr_lives_mini_img = pygame.transform.scale(mr_lives, (25, 19))
+mr_lives_mini_img.set_colorkey(DARK_PURPLE)
+
+# invincible
+sg_l_invincible = pygame.image.load(path.join(game_folder, 'sg_l_invincible.png')).convert()
+sg_l_invincible_img = pygame.transform.scale(sg_l_invincible, (75, 118))
+big_sg_l_invincible_img = pygame.transform.scale(sg_l_invincible, (112, 177))
+big_sg_l_invincible_img.set_colorkey(DARK_PURPLE)
+sg_l_invincible_img.set_colorkey(DARK_PURPLE)
+
+sg_r_invincible = pygame.image.load(path.join(game_folder, 'sg_r_invincible.png')).convert()
+sg_r_invincible_img = pygame.transform.scale(sg_r_invincible, (75, 118))
+big_sg_r_invincible_img = pygame.transform.scale(sg_r_invincible, (112, 177))
+big_sg_r_invincible_img.set_colorkey(DARK_PURPLE)
+sg_r_invincible_img.set_colorkey(DARK_PURPLE)
+
+mr_l_invincible = pygame.image.load(path.join(game_folder, 'mr_l_invincible.png')).convert()
+mr_l_invincible_img = pygame.transform.scale(mr_l_invincible, (73, 118))
+big_mr_l_invincible_img = pygame.transform.scale(mr_l_invincible, (109, 177))
+big_mr_l_invincible_img.set_colorkey(DARK_PURPLE)
+mr_l_invincible_img.set_colorkey(DARK_PURPLE)
+
+mr_r_invincible = pygame.image.load(path.join(game_folder, 'mr_r_invincible.png')).convert()
+mr_r_invincible_img = pygame.transform.scale(mr_r_invincible, (73, 118))
+big_mr_r_invincible_img = pygame.transform.scale(mr_r_invincible, (109, 177))
+big_mr_r_invincible_img.set_colorkey(DARK_PURPLE)
+mr_r_invincible_img.set_colorkey(DARK_PURPLE)
+
+# shield
+sg_l_shield = pygame.image.load(path.join(game_folder, 'sg_l_shield.png')).convert()
+sg_l_shield_img = pygame.transform.scale(sg_l_shield, (73, 122))
+big_sg_l_shield_img = pygame.transform.scale(sg_l_shield, (109, 183))
+big_sg_l_shield_img.set_colorkey(DARK_PURPLE)
+sg_l_shield_img.set_colorkey(DARK_PURPLE)
+
+sg_r_shield = pygame.image.load(path.join(game_folder, 'sg_r_shield.png')).convert()
+sg_r_shield_img = pygame.transform.scale(sg_r_shield, (73, 122))
+big_sg_r_shield_img = pygame.transform.scale(sg_r_shield, (109, 183))
+big_sg_r_shield_img.set_colorkey(DARK_PURPLE)
+sg_r_shield_img.set_colorkey(DARK_PURPLE)
+
+mr_l_shield = pygame.image.load(path.join(game_folder, 'mr_l_shield.png')).convert()
+mr_l_shield_img = pygame.transform.scale(mr_l_shield, (73, 122))
+big_mr_l_shield_img = pygame.transform.scale(mr_l_shield, (109, 183))
+big_mr_l_shield_img.set_colorkey(DARK_PURPLE)
+mr_l_shield_img.set_colorkey(DARK_PURPLE)
+
+mr_r_shield = pygame.image.load(path.join(game_folder, 'mr_r_shield.png')).convert()
+mr_r_shield_img = pygame.transform.scale(mr_r_shield, (73, 122))
+big_mr_r_shield_img = pygame.transform.scale(mr_r_shield, (109, 183))
+big_mr_r_shield_img.set_colorkey(DARK_PURPLE)
+mr_r_shield_img.set_colorkey(DARK_PURPLE)
+
+# slow
+sg_l_slow = pygame.image.load(path.join(game_folder, 'sg_l_slow.png')).convert()
+sg_l_slow_img = pygame.transform.scale(sg_l_slow, (73, 118))
+big_sg_l_slow_img = pygame.transform.scale(sg_l_slow, (109, 177))
+big_sg_l_slow_img.set_colorkey(DARK_PURPLE)
+sg_l_slow_img.set_colorkey(DARK_PURPLE)
+
+sg_r_slow = pygame.image.load(path.join(game_folder, 'sg_r_slow.png')).convert()
+sg_r_slow_img = pygame.transform.scale(sg_r_slow, (73, 118))
+big_sg_r_slow_img = pygame.transform.scale(sg_r_slow, (109, 177))
+big_sg_r_slow_img.set_colorkey(DARK_PURPLE)
+sg_r_slow_img.set_colorkey(DARK_PURPLE)
+
+mr_l_slow = pygame.image.load(path.join(game_folder, 'mr_l_slow.png')).convert()
+mr_l_slow_img = pygame.transform.scale(mr_l_slow, (73, 118))
+big_mr_l_slow_img = pygame.transform.scale(mr_l_slow, (109, 177))
+big_mr_l_slow_img.set_colorkey(DARK_PURPLE)
+mr_l_slow_img.set_colorkey(DARK_PURPLE)
+
+mr_r_slow = pygame.image.load(path.join(game_folder, 'mr_r_slow.png')).convert()
+mr_r_slow_img = pygame.transform.scale(mr_r_slow, (73, 118))
+big_mr_r_slow_img = pygame.transform.scale(mr_r_slow, (109, 177))
+big_mr_r_slow_img.set_colorkey(DARK_PURPLE)
+mr_r_slow_img.set_colorkey(DARK_PURPLE)
+
+# speed+
+sg_l_fast = pygame.image.load(path.join(game_folder, 'sg_l_fast.png')).convert()
+sg_l_fast_img = pygame.transform.scale(sg_l_fast, (75, 118))
+big_sg_l_fast_img = pygame.transform.scale(sg_l_fast, (112, 177))
+big_sg_l_fast_img.set_colorkey(DARK_PURPLE)
+sg_l_fast_img.set_colorkey(DARK_PURPLE)
+
+sg_r_fast = pygame.image.load(path.join(game_folder, 'sg_r_fast.png')).convert()
+sg_r_fast_img = pygame.transform.scale(sg_r_fast, (75, 118))
+big_sg_r_fast_img = pygame.transform.scale(sg_r_fast, (112, 177))
+big_sg_r_fast_img.set_colorkey(DARK_PURPLE)
+sg_r_fast_img.set_colorkey(DARK_PURPLE)
+
+mr_l_fast = pygame.image.load(path.join(game_folder, 'mr_l_fast.png')).convert()
+mr_l_fast_img = pygame.transform.scale(mr_l_fast, (73, 118))
+big_mr_l_fast_img = pygame.transform.scale(mr_l_fast, (109, 177))
+big_mr_l_fast_img.set_colorkey(DARK_PURPLE)
+mr_l_fast_img.set_colorkey(DARK_PURPLE)
+
+mr_r_fast = pygame.image.load(path.join(game_folder, 'mr_r_fast.png')).convert()
+mr_r_fast_img = pygame.transform.scale(mr_r_fast, (73, 118))
+big_mr_r_fast_img = pygame.transform.scale(mr_r_fast, (109, 177))
+big_mr_r_fast_img.set_colorkey(DARK_PURPLE)
+mr_r_fast_img.set_colorkey(DARK_PURPLE)
+
+
+# mobs and backgrounds
 shuriken_img = pygame.image.load(path.join(game_folder, 'pokeball_mob.png')).convert()
 background = pygame.image.load(path.join(game_folder, 'pokemon_background.png')).convert()
 background_rect = background.get_rect()
@@ -45,7 +174,6 @@ highscore_button = pygame.image.load(path.join(game_folder, 'highscore.png')).co
 highscore_button_rect = highscore_button.get_rect()
 congrats = pygame.image.load(path.join(game_folder, 'congrats.png')).convert()
 congrats_rect = congrats.get_rect()
-
 playagain = pygame.image.load(path.join(game_folder, 'playagain.png')).convert()
 playagain_rect = playagain.get_rect()
 playagain_hov = pygame.image.load(path.join(game_folder, 'playagain_hover.png')).convert()
@@ -55,14 +183,15 @@ exitgame_rect = exitgame.get_rect()
 exitgame_hov = pygame.image.load(path.join(game_folder, 'exitgame_hover.png')).convert()
 exitgame_hov_rect = exitgame_hov.get_rect()
 
+# pause screen
 pausescreen = pygame.image.load(path.join(game_folder, 'pausescreen.png')).convert()
 startscreen = pygame.image.load(path.join(game_folder, 'startscreen.png')).convert()
 startscreen_rect = startscreen.get_rect()
 pause_button = pygame.image.load(path.join(game_folder, 'pause_button.png')).convert()
 pause_button_rect = pause_button.get_rect()
-
 pausescreen_rect = pausescreen.get_rect()
 
+# start screen
 mr_circle = pygame.image.load(path.join(game_folder, 'mr_circle.png')).convert()
 mr_circle_rect = mr_circle.get_rect()
 sg_circle = pygame.image.load(path.join(game_folder, 'sg_circle.png')).convert()
@@ -99,6 +228,7 @@ exit_button = pygame.image.load(path.join(game_folder, 'exit_button.png')).conve
 exit_button_rect = resume_button.get_rect()
 exit_hover = pygame.image.load(path.join(game_folder, 'exit_hover.png')).convert()
 
+# buff graphics
 powerup_images = {}
 powerup_images['shield'] = pygame.image.load(path.join(game_folder, 'shield_gold.png')).convert()
 powerup_images['extra life'] = pygame.image.load(path.join(game_folder, 'pill_red.png')).convert()

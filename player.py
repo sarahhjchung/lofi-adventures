@@ -1,7 +1,7 @@
 import pygame
 import random
 from os import path
-from setting import *
+from settings import *
 
 
 class Player(pygame.sprite.Sprite):
@@ -10,11 +10,11 @@ class Player(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         self.choice = choice
         if choice == 1:
-            self.image = pygame.transform.scale(player1_img, (73, 118))
+            self.image = sg_l_img
         else:
-            self.image = pygame.transform.scale(player2_img, (73, 118))
+            self.image = mr_l_img
         self.rect = self.image.get_rect()
-        self.radius = 30
+        self.radius = 32
         # pygame.draw.circle(self.image, RED, self.rect.center, self.radius)
         self.rect.centerx = WIDTH / 2
         self.rect.bottom = HEIGHT - 25
@@ -33,6 +33,7 @@ class Player(pygame.sprite.Sprite):
         self.big_time = pygame.time.get_ticks()
         self.temp_centerx = 0
         self.temp_bottom = 0
+        self.dir = 'left'
 
     def update(self):
         # timeout for speed boost
@@ -56,6 +57,16 @@ class Player(pygame.sprite.Sprite):
         if self.hidden and pygame.time.get_ticks() - self.hide_timer > 1000:
             self.hidden = False
             self.invincible = False
+            if self.choice == 1:
+                if self.big:
+                    self.image = big_sg_l_img
+                else:
+                    self.image = sg_l_img
+            else:
+                if self.big:
+                    self.image = big_mr_l_img
+                else:
+                    self.image = mr_l_img
             self.rect.centerx = WIDTH / 2
             self.rect.bottom = HEIGHT - 25
 
@@ -64,12 +75,9 @@ class Player(pygame.sprite.Sprite):
             self.temp_bottom = self.rect.bottom
             self.temp_centerx = self.rect.centerx
             self.big = False
-            if self.choice == 1:
-                self.image = pygame.transform.scale(player1_img, (73, 118))
-            else:
-                self.image = pygame.transform.scale(player2_img, (73, 118))
+            self.image = pygame.transform.scale(self.image, (73, 118))
             self.rect = self.image.get_rect()
-            self.radius = 30
+            self.radius = 32
             self.rect.centerx = self.temp_centerx
             self.rect.bottom = self.temp_bottom
             self.big_time = pygame.time.get_ticks()
@@ -78,8 +86,104 @@ class Player(pygame.sprite.Sprite):
         keystate = pygame.key.get_pressed()
         if keystate[pygame.K_LEFT]:
             self.speedx = -(self.speed)
+            self.dir = 'left'
+            if self.choice == 1:
+                if self.big:
+                    if self.invincible:
+                        self.image = big_sg_l_invincible_img
+                    elif self.shield:
+                        self.image = big_sg_l_shield_img
+                    elif self.speed > 5:
+                        self.image = big_sg_l_fast_img
+                    elif self.speed < 5:
+                        self.image = big_sg_l_slow_img
+                    else:
+                        self.image = big_sg_l_img
+                else:
+                    if self.invincible:
+                        self.image = sg_l_invincible_img
+                    elif self.shield:
+                        self.image = sg_l_shield_img
+                    elif self.speed > 5:
+                        self.image = sg_l_fast_img
+                    elif self.speed < 5:
+                        self.image = sg_l_slow_img
+                    else:
+                        self.image = sg_l_img
+            else:
+                if self.big:
+                    if self.invincible:
+                        self.image = big_mr_l_invincible_img
+                    elif self.shield:
+                        self.image = big_mr_l_shield_img
+                    elif self.speed > 5:
+                        self.image = big_mr_l_fast_img
+                    elif self.speed < 5:
+                        self.image = big_mr_l_slow_img
+                    else:
+                        self.image = big_mr_l_img
+                else:
+                    if self.invincible:
+                        self.image = mr_l_invincible_img
+                    elif self.shield:
+                        self.image = mr_l_shield_img
+                    elif self.speed > 5:
+                        self.image = mr_l_fast_img
+                    elif self.speed < 5:
+                        self.image = mr_l_slow_img
+                    else:
+                        self.image = mr_l_img
+
         if keystate[pygame.K_RIGHT]:
             self.speedx = self.speed
+            self.dir = 'right'
+            if self.choice == 1:
+                if self.big:
+                    if self.invincible:
+                        self.image = big_sg_r_invincible_img
+                    elif self.shield:
+                        self.image = big_sg_r_shield_img
+                    elif self.speed > 5:
+                        self.image = big_sg_r_fast_img
+                    elif self.speed < 5:
+                        self.image = big_sg_r_slow_img
+                    else:
+                        self.image = big_sg_r_img
+                else:
+                    if self.invincible:
+                        self.image = sg_r_invincible_img
+                    elif self.shield:
+                        self.image = sg_r_shield_img
+                    elif self.speed > 5:
+                        self.image = sg_r_fast_img
+                    elif self.speed < 5:
+                        self.image = sg_r_slow_img
+                    else:
+                        self.image = sg_r_img
+            else:
+                if self.big:
+                    if self.invincible:
+                        self.image = big_mr_r_invincible_img
+                    elif self.shield:
+                        self.image = big_mr_r_shield_img
+                    elif self.speed > 5:
+                        self.image = big_mr_r_fast_img
+                    elif self.speed < 5:
+                        self.image = big_mr_r_slow_img
+                    else:
+                        self.image = big_mr_r_img
+                else:
+                    if self.invincible:
+                        self.image = mr_r_invincible_img
+                    elif self.shield:
+                        self.image = mr_r_shield_img
+                    elif self.speed > 5:
+                        self.image = mr_r_fast_img
+                    elif self.speed < 5:
+                        self.image = mr_r_slow_img
+                    else:
+                        self.image = mr_r_img
+
         self.rect.x += self.speedx
 
         if self.rect.right > WIDTH:
@@ -91,17 +195,15 @@ class Player(pygame.sprite.Sprite):
         self.speedx = 0
         self.speed = 5
         if self.choice == 1:
-            self.image = pygame.transform.scale(player1_img, (73, 118))
+            self.image = sg_l_img
         else:
-            self.image = pygame.transform.scale(player2_img, (73, 118))
+            self.image = mr_l_img
         self.rect = self.image.get_rect()
-        self.radius = 30
-        #self.hide()
+        self.radius = 32
         self.freeze_time = pygame.time.get_ticks()
         self.slow_time = pygame.time.get_ticks()
         self.big_time = pygame.time.get_ticks()
         self.shield = False
-        #self.invincible = False
         self.big = False
 
     def unfreeze(self, mobs, orig_speed):
@@ -120,30 +222,102 @@ class Player(pygame.sprite.Sprite):
         self.invincible = True
 
     def speed_boost(self):
+        self.reset_buff()
         self.speed += 3
         self.power_time = pygame.time.get_ticks()
+        if self.dir == 'left':
+            if self.choice == 1:
+                if self.big:
+                    self.image = big_sg_l_fast_img
+                else:
+                    self.image = sg_l_fast_img
+            else:
+                if self.big:
+                    self.image = big_mr_l_fast_img
+                else:
+                    self.image = mr_l_fast_img
+        else:
+            if self.choice == 1:
+                if self.big:
+                    self.image = big_sg_r_fast_img
+                else:
+                    self.image = sg_r_fast_img
+            else:
+                if self.big:
+                    self.image = big_mr_r_fast_img
+                else:
+                    self.image = mr_r_fast_img
 
     def speed_slow_down(self):
+        self.reset_buff()
         self.speed -= 3
         self.slow_time = pygame.time.get_ticks()
+        if self.dir == 'left':
+            if self.choice == 1:
+                if self.big:
+                    self.image = big_sg_l_slow_img
+                else:
+                    self.image = sg_l_slow_img
+            else:
+                if self.big:
+                    self.image = big_mr_l_slow_img
+                else:
+                    self.image = mr_l_slow_img
+        else:
+            if self.choice == 1:
+                if self.big:
+                    self.image = big_sg_r_slow_img
+                else:
+                    self.image = sg_r_slow_img
+            else:
+                if self.big:
+                    self.image = big_mr_r_slow_img
+                else:
+                    self.image = mr_r_slow_img
 
     def time_invincible(self):
+        self.reset_buff()
         self.invincible = True
         self.invincible_time = pygame.time.get_ticks()
+        if self.dir == 'left':
+            if self.choice == 1:
+                if self.big:
+                    self.image = big_sg_l_invincible_img
+                else:
+                    self.image = sg_l_invincible_img
+            else:
+                if self.big:
+                    self.image = big_mr_l_invincible_img
+                else:
+                    self.image = mr_l_invincible_img
+        else:
+            if self.choice == 1:
+                if self.big:
+                    self.image = big_sg_r_invincible_img
+                else:
+                    self.image = sg_r_invincible_img
+            else:
+                if self.big:
+                    self.image = big_mr_r_invincible_img
+                else:
+                    self.image = mr_r_invincible_img
 
     def big_debuff(self):
         self.big = True
         self.temp_centerx = self.rect.centerx
         self.temp_bottom = self.rect.bottom
-        if self.choice == 1:
-            self.image = pygame.transform.scale(player1_img, (109, 177))
-        else:
-            self.image = pygame.transform.scale(player2_img, (109, 177))
+        self.image = pygame.transform.scale(self.image, (109, 177))
         self.rect = self.image.get_rect()
-        self.radius = 45
+        self.radius = 50
         self.rect.centerx = self.temp_centerx
         self.rect.bottom = self.temp_bottom
         self.big_time = pygame.time.get_ticks()
+
+    def reset_buff(self):
+        self.invincible = False
+        self.shield = False
+        self.speed = 5
+
 
 # power ups
 # ideas:
@@ -159,7 +333,7 @@ class Pow(pygame.sprite.Sprite):
                                    'time freeze', 'time freeze',
                                    'slow', 'slow', 'slow',
                                    'invincible',
-                                   'big', 'big', 'big', 'big', 'big', 'big', 'big', 'big', 'big', 'big', 'big', 'big', 'big', 'big', 'big', 'big', 'big', 'big', 'big', 'big', 'big', 'big', 'big', 'big', 'big', 'big', 'big', 'big', 'big', 'big', 'big', 'big', 'big', 'big', 'big', 'big', 'big', 'big', 'big', 'big', 'big', 'big', 'big', 'big', 'big', 'big', 'big', 'big', 'big', 'big', 'big', 'big'])
+                                   'big', 'big'])
         self.image = powerup_images[self.type]
         self.image.set_colorkey(BLACK)
         self.rect = self.image.get_rect()

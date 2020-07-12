@@ -89,7 +89,31 @@ class Game:
                     self.player.speed = 11
                 self.new_powerup(self.pow_speed)
             if hit.type == 'shield' and not self.player.shield:
+                self.player.reset_buff()
                 self.player.shield = True
+                if self.player.dir == 'left':
+                    if self.player.choice == 1:
+                        if self.player.big:
+                            self.player.image = big_sg_l_shield_img
+                        else:
+                            self.player.image = sg_l_shield_img
+                    else:
+                        if self.player.big:
+                            self.player.image = big_mr_l_shield_img
+                        else:
+                            self.player.image = mr_l_shield_img
+                else:
+                    if self.player.choice == 1:
+                        if self.player.big:
+                            self.player.image = big_sg_r_shield_img
+                        else:
+                            self.player.image = sg_r_shield_img
+                    else:
+                        if self.player.big:
+                            self.player.image = big_mr_r_shield_img
+                        else:
+                            self.player.image = mr_r_shield_img
+
                 self.new_powerup(self.pow_speed)
             if hit.type == 'time freeze':
                 for mob in self.mobs:
@@ -131,7 +155,10 @@ class Game:
         draw_text(screen, str(int(self.score)), 18, WIDTH / 2, 10)
 
         # lives on the top
-        draw_lives(screen, WIDTH - 100, 5, self.player.lives, lives_mini_img)
+        if self.player.choice == 1:
+            draw_lives(screen, WIDTH - 100, 6, self.player.lives, sg_lives_mini_img)
+        else:
+            draw_lives(screen, WIDTH - 100, 6, self.player.lives, mr_lives_mini_img)
 
 
 g = Game()
