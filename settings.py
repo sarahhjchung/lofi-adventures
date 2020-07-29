@@ -28,6 +28,17 @@ game_folder = path.dirname(__file__)
 
 # Load all game graphics
 
+# Intro
+intro_mr_1 = pygame.image.load(path.join(game_folder, 'intro_mr_1.png')).convert()
+introscreen_rect = intro_mr_1.get_rect()
+intro_mr_2 = pygame.image.load(path.join(game_folder, 'intro_mr_2.png')).convert()
+intro_mr_3 = pygame.image.load(path.join(game_folder, 'intro_mr_3.png')).convert()
+intro_mr_4 = pygame.image.load(path.join(game_folder, 'intro_mr_4.png')).convert()
+intro_sg_1 = pygame.image.load(path.join(game_folder, 'intro_sg_1.png')).convert()
+intro_sg_2 = pygame.image.load(path.join(game_folder, 'intro_sg_2.png')).convert()
+intro_sg_3 = pygame.image.load(path.join(game_folder, 'intro_sg_3.png')).convert()
+intro_sg_4 = pygame.image.load(path.join(game_folder, 'intro_sg_4.png')).convert()
+
 # basic character with two sizes
 player1_img = pygame.image.load(path.join(game_folder, 'sg_l.png')).convert()
 sg_l_img = pygame.transform.scale(player1_img, (73, 118))

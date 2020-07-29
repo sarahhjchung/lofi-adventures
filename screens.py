@@ -69,14 +69,6 @@ def show_go_screen(g):
 
 
 def show_start_screen(g):
-    # screen.fill(BLACK)
-    # draw_text(screen, 'WELCOME', 64, int(WIDTH/2), int(HEIGHT/7))
-    # draw_text(screen, 'CHOOSE YOUR CHARACTER', 36, int(WIDTH/2), int(HEIGHT/5 + 40))
-    # # start_button = pygame.Rect(int(WIDTH/2 - 92), int(HEIGHT - 150), 190, 50)
-    # sarah_button = pygame.Rect(int(WIDTH/2 - 150), int(2*HEIGHT/3 - 125), 100, 100)
-    # allen_button = pygame.Rect(int(WIDTH/2 + 50), int(2*HEIGHT/3 - 125), 100, 100)
-    # draw_text(screen, 'High Score: ' + str(int(g.highscore)), 22, 80, 5)
-
     # insert start screen image
     startscreen_rect.x = 0
     startscreen_rect.y = 0
@@ -138,8 +130,6 @@ def show_start_screen(g):
 
         if sg_selected or mr_selected:
             click_start = pygame.mouse.get_pressed()
-            # pygame.draw.rect(screen, GREEN, start_button)
-            # draw_text(screen, 'START GAME', 28, int(WIDTH/2), int(HEIGHT - 150))
 
             # insert start button
             start_button.set_colorkey(DARK_PURPLE)
@@ -148,11 +138,9 @@ def show_start_screen(g):
             screen.blit(start_button, start_button_rect)
 
             if button_hovered2(start_button_rect, start_hover):
-                #draw_text(screen, 'START GAME', 28, int(WIDTH/2), int(HEIGHT - 150))
 
                 if click_start[0] == 1:
-                    waiting = False
-                    return choice
+                    return show_intro_screen1(choice)
 
 
 
@@ -233,3 +221,90 @@ def show_pause_screen():
                 pygame.quit()
                 quit()
     return pause, reset
+
+
+def show_intro_screen1(choice):
+    introscreen_rect.x = 0
+    introscreen_rect.y = 0
+    if choice == 1:
+        screen.blit(intro_sg_1, introscreen_rect)
+    else:
+        screen.blit(intro_mr_1, introscreen_rect)
+    waiting = True
+    while waiting:
+        clock.tick(FPS)
+        for event in pygame.event.get():
+            if event.type == pygame.KEYUP:
+                return show_intro_screen2(choice)
+
+        pygame.display.flip()
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+
+
+def show_intro_screen2(choice):
+    introscreen_rect.x = 0
+    introscreen_rect.y = 0
+    if choice == 1:
+        screen.blit(intro_sg_2, introscreen_rect)
+    else:
+        screen.blit(intro_mr_2, introscreen_rect)
+    waiting = True
+    while waiting:
+        clock.tick(FPS)
+        for event in pygame.event.get():
+            if event.type == pygame.KEYUP:
+                return show_intro_screen3(choice)
+
+        pygame.display.flip()
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+
+
+def show_intro_screen3(choice):
+    introscreen_rect.x = 0
+    introscreen_rect.y = 0
+    if choice == 1:
+        screen.blit(intro_sg_3, introscreen_rect)
+    else:
+        screen.blit(intro_mr_3, introscreen_rect)
+    waiting = True
+    while waiting:
+        clock.tick(FPS)
+        for event in pygame.event.get():
+            if event.type == pygame.KEYUP:
+                return show_intro_screen4(choice)
+
+        pygame.display.flip()
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+
+
+def show_intro_screen4(choice):
+    introscreen_rect.x = 0
+    introscreen_rect.y = 0
+    if choice == 1:
+        screen.blit(intro_sg_4, introscreen_rect)
+    else:
+        screen.blit(intro_mr_4, introscreen_rect)
+    waiting = True
+    while waiting:
+        clock.tick(FPS)
+        for event in pygame.event.get():
+            if event.type == pygame.KEYUP:
+                return choice
+        pygame.display.flip()
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
