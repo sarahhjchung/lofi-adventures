@@ -21,9 +21,21 @@ class Game:
         self.last_update = 0
         self.pause = False
         self.load_data()
+        self.bg = pokemon_bg
+        self.bg_rect = pokemon_bg_rect
+        self.stage1 = 0
+        self.stage2 = 0
+        self.stage3 = 0
+        self.mobs_paused_speedy = 0
+        self.pow_paused_speedy = 0
 
     def new(self):
         self.start = False
+        self.stage1 = 0
+        self.stage2 = 0
+        self.stage3 = 0
+        self.mobs_paused_speedy = 0
+        self.pow_paused_speedy = 0
         self.mob_speed = 3
         self.pow_speed = 3
         self.score = 0
@@ -73,7 +85,27 @@ class Game:
                 self.player.reset()
                 self.player.hide()
                 self.player.lives -= 1
+            if self.player.shield:
+                if self.player.dir == 'left':
+                    if self.player.choice == 1 and self.player.big:
+                        self.player.image = big_sg_l_img
+                    elif self.player.choice == 1 and not self.player.big:
+                        self.player.image = sg_l_img
+                    elif self.player.choice != 1 and self.player.big:
+                        self.player.image = big_mr_l_img
+                    else:
+                        self.player.image = mr_l_img
+                else:
+                    if self.player.choice == 1 and self.player.big:
+                        self.player.image = big_sg_r_img
+                    elif self.player.choice == 1 and not self.player.big:
+                        self.player.image = sg_r_img
+                    elif self.player.choice != 1 and self.player.big:
+                        self.player.image = big_mr_r_img
+                    else:
+                        self.player.image = mr_r_img
             self.player.shield = False
+
 
         # check to see if player hit a powerup
         powerup_hits = pygame.sprite.spritecollide(self.player, self.powerups, True, pygame.sprite.collide_circle)
@@ -135,6 +167,77 @@ class Game:
         if self.player.lives == 0:
             self.game_over = True
 
+        # changing backgrounds/mobs (minecraft)
+        if int(self.score) == STAGE_1_to_2:
+            self.stage2 = pygame.time.get_ticks()
+            self.mobs_paused_speedy = self.mob_speed
+            self.pow_paused_speedy = self.pow_speed
+
+        if STAGE_2_to_3 > self.score > STAGE_1_to_2:
+            self.bg = minecraft_bg
+            self.bg_rect = minecraft_bg_rect
+            for mob in self.mobs:
+                mob.image_orig = pygame.transform.scale(creeper_img, (70, 70))
+                mob.image_orig.set_colorkey(DARK_PURPLE)
+            if pygame.time.get_ticks() - self.stage2 < 2000:
+                draw_text(screen, 'STAGE 2: MINECRAFT', 48, WIDTH/2, 180)
+                for mob in self.mobs:
+                    mob.speedy = 0
+                    mob.rect.x = 1000
+                    mob.rect.y = 1000
+
+                for pow in self.powerups:
+                    pow.speedy = 0
+                    pow.rect.x = 1000
+                    pow.rect.y = 1000
+
+                self.score = STAGE_1_to_2 + 1
+
+            for mob in self.mobs:
+                mob.speedy = self.mobs_paused_speedy
+                mob.rect.x += int(mob.speedx)
+                mob.rect.y += int(mob.speedy)
+
+            for pow in self.powerups:
+                pow.speedy = self.pow_paused_speedy
+                pow.rect.y += int(pow.speedy)
+
+        # changing backgrounds/mobs (mario)
+        if int(self.score) == STAGE_2_to_3:
+            self.stage3 = pygame.time.get_ticks()
+            self.mobs_paused_speedy = self.mob_speed
+            self.pow_paused_speedy = self.pow_speed
+
+        if self.score > STAGE_2_to_3:
+            self.bg = mario_bg
+            self.bg_rect = mario_bg_rect
+            for mob in self.mobs:
+                mob.image_orig = pygame.transform.scale(goomba_img, (70, 70))
+                mob.image_orig.set_colorkey(DARK_PURPLE)
+            if pygame.time.get_ticks() - self.stage3 < 2000:
+                draw_text(screen, 'STAGE 3: SUPER MARIO BROS', 48, WIDTH/2, 180)
+
+                for mob in self.mobs:
+                    mob.speedy = 0
+                    mob.rect.x = 1000
+                    mob.rect.y = 1000
+
+                for pow in self.powerups:
+                    pow.speedy = 0
+                    pow.rect.x = 1000
+                    pow.rect.y = 1000
+
+                self.score = STAGE_2_to_3 + 1
+
+            for mob in self.mobs:
+                mob.speedy = self.mobs_paused_speedy
+                mob.rect.x += int(mob.speedx)
+                mob.rect.y += int(mob.speedy)
+
+            for pow in self.powerups:
+                pow.speedy = self.pow_paused_speedy
+                pow.rect.y += int(pow.speedy)
+
     def new_mob(self, speed):
         m = Mob()
         self.all_sprites.add(m)
@@ -148,7 +251,7 @@ class Game:
         p.speedy += speed
 
     def draw(self):
-        screen.blit(background, background_rect)
+        screen.blit(self.bg, self.bg_rect)
         self.all_sprites.draw(screen)
 
         # score on the top
@@ -159,6 +262,25 @@ class Game:
             draw_lives(screen, WIDTH - 100, 6, self.player.lives, sg_lives_mini_img)
         else:
             draw_lives(screen, WIDTH - 100, 6, self.player.lives, mr_lives_mini_img)
+
+        # pause button
+        pause_button.set_colorkey(DARK_PURPLE)
+        pause_button_rect.x = 0
+        exit_button_rect.y = 0
+        screen.blit(pause_button, pause_button_rect)
+
+        if int(self.score) == 0:
+            g.stage1 = pygame.time.get_ticks()
+
+        if pygame.time.get_ticks() - g.stage1 < 2000:
+            draw_text(screen, 'STAGE 1: POKEMON', 48, WIDTH/2, 180)
+
+
+        click = pygame.mouse.get_pressed()
+        if button_hovered1(pause_button_rect, pause_button):
+            if click[0] == 1:
+                g.pause = show_pause_screen()[0]
+                g.start = show_pause_screen()[1]
 
 
 g = Game()
@@ -181,18 +303,6 @@ while g.running:
             g.running = False
 
     g.draw()
-
-    # pause button
-    pause_button.set_colorkey(DARK_PURPLE)
-    pause_button_rect.x = 0
-    exit_button_rect.y = 0
-    screen.blit(pause_button, pause_button_rect)
-
-    click = pygame.mouse.get_pressed()
-    if button_hovered1(pause_button_rect, pause_button):
-        if click[0] == 1:
-            g.pause = show_pause_screen()[0]
-            g.start = show_pause_screen()[1]
 
     if not g.pause:
         g.update()
