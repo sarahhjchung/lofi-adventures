@@ -1,12 +1,12 @@
 import pygame
 import random
-from setting import *
+from settings import *
 
 
 class Mob(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.image_orig = pygame.transform.scale(shuriken_img, (160, 160))
+        self.image_orig = pygame.transform.scale(pokeball_img, (160, 160))
         self.image_orig.set_colorkey(DARK_PURPLE)
         self.image = self.image_orig.copy()
         self.rect = self.image.get_rect()
