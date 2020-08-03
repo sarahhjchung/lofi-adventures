@@ -18,6 +18,9 @@ ORANGE = (255, 178, 102)
 DARK_PURPLE = (91, 50, 65)
 BACKGROUND_COLOUR = ORANGE
 
+STAGE_1_to_2 = 250
+STAGE_2_to_3 = 500
+
 font_name = pygame.font.match_font("Arial")
 
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -174,9 +177,17 @@ mr_r_fast_img.set_colorkey(DARK_PURPLE)
 
 
 # mobs and backgrounds
-shuriken_img = pygame.image.load(path.join(game_folder, 'pokeball_mob.png')).convert()
-background = pygame.image.load(path.join(game_folder, 'pokemon_background.png')).convert()
-background_rect = background.get_rect()
+pokeball_img = pygame.image.load(path.join(game_folder, 'pokeball_mob.png')).convert()
+pokemon_bg = pygame.image.load(path.join(game_folder, 'pokemon_background.png')).convert()
+pokemon_bg_rect = pokemon_bg.get_rect()
+
+creeper_img = pygame.image.load(path.join(game_folder, 'creeper.png')).convert()
+minecraft_bg = pygame.image.load(path.join(game_folder, 'minecraft_bg.png')).convert()
+minecraft_bg_rect = minecraft_bg.get_rect()
+
+goomba_img = pygame.image.load(path.join(game_folder, 'goomba.png')).convert()
+mario_bg = pygame.image.load(path.join(game_folder, 'mario_bg.png')).convert()
+mario_bg_rect = mario_bg.get_rect()
 
 # game over screen
 goscreen = pygame.image.load(path.join(game_folder, 'gameover.png')).convert()
