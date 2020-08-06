@@ -308,7 +308,7 @@ class Player(pygame.sprite.Sprite):
         self.temp_bottom = self.rect.bottom
         self.image = pygame.transform.scale(self.image, (109, 177))
         self.rect = self.image.get_rect()
-        self.radius = 50
+        self.radius = 60
         self.rect.centerx = self.temp_centerx
         self.rect.bottom = self.temp_bottom
         self.big_time = pygame.time.get_ticks()

@@ -1,5 +1,5 @@
 import pygame
-from mob import Mob
+from mob import *
 from player import *
 from screens import *
 from settings import *
@@ -44,7 +44,7 @@ class Game:
         self.all_sprites.add(self.player)
         self.mobs = pygame.sprite.Group()
         self.powerups = pygame.sprite.Group()
-        for i in range(5):
+        for i in range(2):
             self.new_mob(self.mob_speed)
         for j in range(1):
             self.new_powerup(self.pow_speed)
@@ -85,6 +85,7 @@ class Game:
                 self.player.reset()
                 self.player.hide()
                 self.player.lives -= 1
+                # hit_sound.play()
             if self.player.shield:
                 if self.player.dir == 'left':
                     if self.player.choice == 1 and self.player.big:
@@ -105,6 +106,9 @@ class Game:
                     else:
                         self.player.image = mr_r_img
             self.player.shield = False
+            expl = Explosion(hit.rect.center, "lg")
+            explosion_sound.play()
+            self.all_sprites.add(expl)
 
 
         # check to see if player hit a powerup
@@ -164,11 +168,43 @@ class Game:
                 self.player.big_debuff()
                 self.new_powerup(self.pow_speed)
 
+            drink_sound.play()
         if self.player.lives == 0:
+            # hit_sound.play()
             self.game_over = True
+
+        if self.score == 0:
+            stage_sound.play()
+            self.stage1 = pygame.time.get_ticks()
+            self.mobs_paused_speedy = self.mob_speed
+            self.pow_paused_speedy = self.pow_speed
+
+        if self.score > 0:
+            if pygame.time.get_ticks() - self.stage1 < 2000:
+                for mob in self.mobs:
+                    mob.speedy = 0
+                    mob.rect.x = 1000
+                    mob.rect.y = 1000
+
+                for pow in self.powerups:
+                    pow.speedy = 0
+                    pow.rect.x = 1000
+                    pow.rect.y = 1000
+
+                self.score = 1
+
+            for mob in self.mobs:
+                mob.speedy = self.mobs_paused_speedy
+                mob.rect.x += int(mob.speedx)
+                mob.rect.y += int(mob.speedy)
+
+            for pow in self.powerups:
+                pow.speedy = self.pow_paused_speedy
+                pow.rect.y += int(pow.speedy)
 
         # changing backgrounds/mobs (minecraft)
         if int(self.score) == STAGE_1_to_2:
+            stage_sound.play()
             self.stage2 = pygame.time.get_ticks()
             self.mobs_paused_speedy = self.mob_speed
             self.pow_paused_speedy = self.pow_speed
@@ -177,8 +213,9 @@ class Game:
             self.bg = minecraft_bg
             self.bg_rect = minecraft_bg_rect
             for mob in self.mobs:
-                mob.image_orig = pygame.transform.scale(creeper_img, (70, 70))
+                mob.image_orig = pygame.transform.scale(creeper_img, (80, 80))
                 mob.image_orig.set_colorkey(DARK_PURPLE)
+                mob.radius = 22
             if pygame.time.get_ticks() - self.stage2 < 2000:
                 draw_text(screen, 'STAGE 2: MINECRAFT', 48, WIDTH/2, 180)
                 for mob in self.mobs:
@@ -204,6 +241,7 @@ class Game:
 
         # changing backgrounds/mobs (mario)
         if int(self.score) == STAGE_2_to_3:
+            stage_sound.play()
             self.stage3 = pygame.time.get_ticks()
             self.mobs_paused_speedy = self.mob_speed
             self.pow_paused_speedy = self.pow_speed
@@ -212,7 +250,8 @@ class Game:
             self.bg = mario_bg
             self.bg_rect = mario_bg_rect
             for mob in self.mobs:
-                mob.image_orig = pygame.transform.scale(goomba_img, (70, 70))
+                mob.image_orig = pygame.transform.scale(goomba_img, (75, 75))
+                mob.radius = 20
                 mob.image_orig.set_colorkey(DARK_PURPLE)
             if pygame.time.get_ticks() - self.stage3 < 2000:
                 draw_text(screen, 'STAGE 3: SUPER MARIO BROS', 48, WIDTH/2, 180)
@@ -279,6 +318,7 @@ class Game:
         click = pygame.mouse.get_pressed()
         if button_hovered1(pause_button_rect, pause_button):
             if click[0] == 1:
+                click_sound.play()
                 g.pause = show_pause_screen()[0]
                 g.start = show_pause_screen()[1]
 

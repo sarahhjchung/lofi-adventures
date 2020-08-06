@@ -11,7 +11,6 @@ def show_go_screen(g):
     # draw_text(screen, 'PLAY AGAIN', 28, int(WIDTH/2), int(2*HEIGHT/3))
     # draw_text(screen, 'EXIT', 28, int(WIDTH/2), int(2*HEIGHT/3 + 70))
     waiting = True
-
     # insert gameover screen image
     goscreen_rect.x = 0
     goscreen_rect.y = 0
@@ -23,6 +22,8 @@ def show_go_screen(g):
         congrats_rect.x = 215
         congrats_rect.y = 240
         screen.blit(congrats, congrats_rect)
+
+        highscore_sound.play()
         with open(path.join(game_folder, HS_FILE), 'w') as f:
             f.write(str(g.score))
     else:
@@ -32,7 +33,6 @@ def show_go_screen(g):
         draw_text(screen, str(int(g.highscore)), 32, 460, 270)
 
     while waiting:
-
         clock.tick(FPS)
 
         click = pygame.mouse.get_pressed()
@@ -52,11 +52,13 @@ def show_go_screen(g):
         if button_hovered2(playagain_rect, playagain_hov):
 
             if click[0] == 1:
+                click_sound.play()
                 waiting = False
 
         elif button_hovered2(exitgame_rect, exitgame_hov):
 
             if click[0] == 1:
+                click_sound.play()
                 pygame.quit()
                 quit()
 
@@ -69,6 +71,8 @@ def show_go_screen(g):
 
 
 def show_start_screen(g):
+    background_sound.stop()
+    background_sound.play(10)
     # insert start screen image
     startscreen_rect.x = 0
     startscreen_rect.y = 0
@@ -97,8 +101,8 @@ def show_start_screen(g):
 
         click_character = pygame.mouse.get_pressed()
         if button_hovered2(sg_button_rect, sg_hover):
-
             if click_character[0] == 1:
+                click_sound.play()
                 sg_selected = True
                 mr_selected = False
                 choice = 1
@@ -106,6 +110,7 @@ def show_start_screen(g):
         if button_hovered2(mr_button_rect, mr_hover):
 
             if click_character[0] == 1:
+                click_sound.play()
                 mr_selected = True
                 sg_selected = False
                 choice = 2
@@ -140,6 +145,7 @@ def show_start_screen(g):
             if button_hovered2(start_button_rect, start_hover):
 
                 if click_start[0] == 1:
+                    click_sound.play()
                     return show_intro_screen1(choice)
 
 
@@ -198,6 +204,7 @@ def show_pause_screen():
         if button_hovered1(restart_button_click, restart_hover):
 
             if click[0] == 1:
+                click_sound.play()
                 waiting = False
                 reset = True
                 pause = False
@@ -205,12 +212,14 @@ def show_pause_screen():
         elif button_hovered1(exit_button_click, exit_hover):
 
             if click[0] == 1:
+                click_sound.play()
                 pygame.quit()
                 quit()
 
         elif button_hovered1(resume_button_click, resume_hover):
 
             if click[0] == 1:
+                click_sound.play()
                 pause = False
                 waiting = False
 
@@ -224,6 +233,7 @@ def show_pause_screen():
 
 
 def show_intro_screen1(choice):
+    type_sound.play()
     introscreen_rect.x = 0
     introscreen_rect.y = 0
     if choice == 1:
@@ -234,15 +244,14 @@ def show_intro_screen1(choice):
     while waiting:
         clock.tick(FPS)
         for event in pygame.event.get():
-            if event.type == pygame.KEYUP:
-                return show_intro_screen2(choice)
-
-        pygame.display.flip()
-
-        for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
+            if event.type == pygame.KEYUP:
+                page_flip_sound.play()
+                return show_intro_screen2(choice)
+
+        pygame.display.flip()
 
 
 def show_intro_screen2(choice):
@@ -256,15 +265,14 @@ def show_intro_screen2(choice):
     while waiting:
         clock.tick(FPS)
         for event in pygame.event.get():
-            if event.type == pygame.KEYUP:
-                return show_intro_screen3(choice)
-
-        pygame.display.flip()
-
-        for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
+            if event.type == pygame.KEYUP:
+                page_flip_sound.play()
+                return show_intro_screen3(choice)
+
+        pygame.display.flip()
 
 
 def show_intro_screen3(choice):
@@ -278,15 +286,14 @@ def show_intro_screen3(choice):
     while waiting:
         clock.tick(FPS)
         for event in pygame.event.get():
-            if event.type == pygame.KEYUP:
-                return show_intro_screen4(choice)
-
-        pygame.display.flip()
-
-        for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
+            if event.type == pygame.KEYUP:
+                page_flip_sound.play()
+                return show_intro_screen4(choice)
+
+        pygame.display.flip()
 
 
 def show_intro_screen4(choice):
@@ -300,11 +307,12 @@ def show_intro_screen4(choice):
     while waiting:
         clock.tick(FPS)
         for event in pygame.event.get():
-            if event.type == pygame.KEYUP:
-                return choice
-        pygame.display.flip()
-
-        for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
+            if event.type == pygame.KEYUP:
+                type_sound.stop()
+                return choice
+        pygame.display.flip()
+
+

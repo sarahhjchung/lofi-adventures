@@ -7,6 +7,8 @@ FPS = 60
 POWERUP_TIME = 5000
 HS_FILE = "highscore.txt"
 
+pygame.mixer.init()
+
 # define color
 BLACK = (0, 0, 0)
 RED = (255, 0, 0)
@@ -18,8 +20,8 @@ ORANGE = (255, 178, 102)
 DARK_PURPLE = (91, 50, 65)
 BACKGROUND_COLOUR = ORANGE
 
-STAGE_1_to_2 = 250
-STAGE_2_to_3 = 500
+STAGE_1_to_2 = 75
+STAGE_2_to_3 = 150
 
 font_name = pygame.font.match_font("Arial")
 
@@ -260,7 +262,31 @@ powerup_images['slow'] = pygame.image.load(path.join(game_folder, 'slow.png')).c
 powerup_images['invincible'] = pygame.image.load(path.join(game_folder, 'invincible.png')).convert()
 powerup_images['big'] = pygame.image.load(path.join(game_folder, 'big.png')).convert()
 
+explosion_anim = {}
+explosion_anim["lg"] = []
+explosion_anim["sm"] = []
+for i in range(1, 6):
+    filename = "explosion{}.png".format(i)
+    img = pygame.image.load(path.join(game_folder, filename)).convert()
+    img.set_colorkey(BLACK)
+    img_lg = pygame.transform.scale(img, (75, 75))
+    explosion_anim['lg'].append(img_lg)
+    img_sm = pygame.transform.scale(img, (32, 32))
+    explosion_anim['sm'].append(img_sm)
 
+# load all sound
+click_sound = pygame.mixer.Sound(path.join(game_folder, "button_click.wav"))
+click_sound.set_volume(0.1)
+drink_sound = pygame.mixer.Sound(path.join(game_folder, "drink.mp3"))
+hit_sound = pygame.mixer.Sound(path.join(game_folder, "hit.mp3"))
+explosion_sound = pygame.mixer.Sound(path.join(game_folder, "explosion.wav"))
+page_flip_sound = pygame.mixer.Sound(path.join(game_folder, "page_flip.wav"))
+type_sound = pygame.mixer.Sound(path.join(game_folder, "type.wav"))
+background_sound = pygame.mixer.Sound(path.join(game_folder, "background.mp3"))
+background_sound.set_volume(0.1)
+stage_sound = pygame.mixer.Sound(path.join(game_folder, "stage.wav"))
+highscore_sound = pygame.mixer.Sound(path.join(game_folder, "highscore.mp3"))
+highscore_sound.set_volume(0.2)
 # helper
 def draw_text(surf, text, size, x, y):
     font = pygame.font.Font(font_name, size)
